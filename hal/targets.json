@@ -1647,6 +1647,7 @@
         "extra_labels": ["RENESAS", "MBRZA1H"],
         "supported_toolchains": ["ARM", "GCC_ARM", "IAR"],
         "inherits": ["Target"],
+	"macros": ["MBEDTLS_TEST_NULL_ENTROPY", "MBEDTLS_NO_DEFAULT_ENTROPY_SOURCES"],
         "progen": {
             "target": "gr-peach",
             "iar": {
