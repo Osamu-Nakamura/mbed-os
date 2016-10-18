@@ -20,6 +20,7 @@
 
 #include "RZ_A1_Init.h"
 #include "MBRZA1H.h"
+#include "vfp_neon_push_pop.h"
 
 #define US_TICKER_TIMER_IRQn (OSTMI1TINT_IRQn)
 #define CPG_STBCR5_BIT_MSTP50   (0x01u) /* OSTM1 */
@@ -92,7 +93,11 @@ uint32_t us_ticker_read() {
 #endif /* __ICCARM__ */
 
     cnt_val64        = ticker_read_counter64();
+
+    __vfp_push();
     us_val64         = (cnt_val64 / count_clock);
+    __vfp_pop();
+
     ticker_us_last64 = us_val64;
 
     if (!check_irq_masked) {
@@ -118,7 +123,10 @@ void us_ticker_set_interrupt(timestamp_t timestamp) {
     }
 
     /* calc compare mach timestamp */
+    __vfp_push();
     set_cmp_val64  = timestamp64 * count_clock;
+    __vfp_pop();
+
     set_cmp_val    = (uint32_t)(set_cmp_val64 & 0x00000000FFFFFFFF);
     count_val_64   = ticker_read_counter64();
     if (set_cmp_val64 <= (count_val_64 + 500)) {
