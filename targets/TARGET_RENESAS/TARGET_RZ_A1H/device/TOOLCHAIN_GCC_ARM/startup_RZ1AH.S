@@ -96,7 +96,7 @@ __StackTop:
 
 @ Heap Configuration
 
-    .EQU    Heap_Size       , 0x00080000
+    .EQU    Heap_Size       , 0x00200000
 
     .section .heap
     .align 3
